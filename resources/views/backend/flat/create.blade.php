@@ -14,7 +14,7 @@
                     </x-form.select>
                     @endrole
 
-                    <x-form.input label="Flat Name" type="text" id="name" placeholder="Enter Flat Name"/>
+                    <x-form.input label="Flat Number" type="text" id="number" placeholder="Enter Flat Number"/>
                     <x-form.input label="Owner Name" type="text" id="owner_name" placeholder="Enter Owner Name"/>
                     <x-form.input label="Owner Contact" type="text" id="owner_contact" placeholder="Enter Owner Contact"/>
                     <x-form.input label="Owner Email" type="text" id="owner_email" placeholder="Enter Owner Email"/>

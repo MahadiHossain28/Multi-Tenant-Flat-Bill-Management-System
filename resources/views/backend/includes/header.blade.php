@@ -20,8 +20,8 @@
         ],
         [
             'title' => 'Tenant',
-            'route' => route('dashboard'),
-            'active' => request()->is('/dashboard*'),
+            'route' => route('tenant.index'),
+            'active' => request()->is('tenant*'),
             'roles' => 'admin',
         ],
         [

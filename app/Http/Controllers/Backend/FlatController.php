@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Flat\StoreRequest;
 use App\Http\Requests\Flat\UpdateRequest;
-use App\Http\Requests\FlatRequest;
 use App\Models\Building;
 use App\Models\Flat;
 use Illuminate\Http\Request;
@@ -18,8 +17,8 @@ class FlatController extends Controller
      */
     public function index()
     {
-        $flats = Flat::with('building')->get();
-        return view('backend.flats.index', compact('flats'));
+        $flats = Flat::with('building', 'tenant')->paginate(10);
+        return view('backend.flat.index', compact('flats'));
     }
 
     /**
@@ -28,11 +27,11 @@ class FlatController extends Controller
     public function create()
     {
         if(Auth::user()->hasRole('admin')){
-            $buildings = Building::all();
+            $buildings = Building::select(['id', 'name'])->get();
         }else{
             $buildings = null;
         }
-        return view('backend.flats.create', compact('buildings'));
+        return view('backend.flat.create', compact('buildings'));
     }
 
     /**
@@ -41,12 +40,12 @@ class FlatController extends Controller
     public function store(StoreRequest $request)
     {
         Flat::create([
-            'name' => $request->name,
+            'number' => $request->number,
             'owner_name' => $request->owner_name,
             'owner_contact' => $request->owner_contact,
             'owner_email' => $request->owner_email,
         ]);
-        return redirect()->route('flat.index')->with('success', 'Flat added successfully.');
+        return redirect()->route('flat.index')->with('success', 'Flat has been created.');
     }
 
     /**
@@ -63,11 +62,11 @@ class FlatController extends Controller
     public function edit(Flat $flat)
     {
         if(Auth::user()->hasRole('admin')){
-            $buildings = Building::all();
+            $buildings = Building::select(['id', 'name'])->get();
         }else{
             $buildings = null;
         }
-        return view('backend.flats.edit', compact('buildings', 'flat'));
+        return view('backend.flat.edit', compact('buildings', 'flat'));
     }
 
     /**
@@ -77,12 +76,12 @@ class FlatController extends Controller
     {
         $flat->update([
             'building_id' => $request->building_id,
-            'name' => $request->name,
+            'number' => $request->number,
             'owner_name' => $request->owner_name,
             'owner_contact' => $request->owner_contact,
             'owner_email' => $request->owner_email,
         ]);
-        return redirect()->route('flat.index')->with('success', 'Flat updated successfully.');
+        return redirect()->route('flat.index')->with('success', 'Flat has been updated.');
     }
 
     /**
@@ -91,6 +90,6 @@ class FlatController extends Controller
     public function destroy(Flat $flat)
     {
         $flat->delete();
-        return redirect()->route('flat.index')->with('success', 'Flat deleted successfully.');
+        return redirect()->route('flat.index')->with('success', 'Flat has been deleted.');
     }
 }

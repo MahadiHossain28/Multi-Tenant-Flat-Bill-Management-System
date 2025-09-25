@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Building;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -12,6 +13,7 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('backend.layouts.dashboard');
+        $building = Building::where('house_owner_id', auth()->id())->first();
+        return view('backend.layouts.dashboard', compact('building'));
     }
 }

@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('house_owner_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('building_id')->constrained('buildings')->onDelete('cascade');
-            $table->string('name');
+            $table->string('number');
             $table->string('owner_name')->nullable();
-            $table->string('owner_contact')->nullable();
             $table->string('owner_email')->unique()->nullable();
+            $table->string('owner_contact')->unique()->nullable();
             $table->timestamps();
 
-            $table->unique(['building_id', 'name']);
+            $table->unique(['building_id', 'number']);
             $table->index('house_owner_id','building_id');
         });
     }

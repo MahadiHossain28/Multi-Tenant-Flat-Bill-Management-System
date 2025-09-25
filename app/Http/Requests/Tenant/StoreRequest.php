@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Tenant;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class FlatRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,24 +21,18 @@ class FlatRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
+        return [
+            'building_id' => 'required|integer|exists:buildings,id',
             'name' => 'required|string|max:255',
-            'owner_name' => 'required|string|max:255',
-            'owner_contact' => 'required|string|max:255',
-            'owner_email' => 'required|email|unique:flats,owner_email',
+            'contact' => 'required|regex:/^[0-9]{11}$/|unique:tenants,contact',
+            'email' => 'required|email|unique:tenants,email',
         ];
-
-        if (Auth::user() && Auth::user()->hasRole('admin')) {
-            $rules['building_id'] = 'required|integer|exists:buildings,id';
-        }
-
-        return $rules;
     }
 
     public function attributes(): array
     {
         return [
-            'owner_id' => 'Building',
+            'building_id' => 'Building',
         ];
     }
 }

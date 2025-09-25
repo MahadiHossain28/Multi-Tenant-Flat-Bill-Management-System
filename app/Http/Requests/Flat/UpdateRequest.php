@@ -24,9 +24,9 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'name' => 'required|string|max:255',
+            'number' => 'required|string|max:255',
             'owner_name' => 'required|string|max:255',
-            'owner_contact' => 'required|string|max:255',
+            'owner_contact' => ['required', 'regex:/^[0-9]{11}$/', Rule::unique('flats')->ignore($this->flat->id)],
             'owner_email' => ['required', 'email', Rule::unique('flats')->ignore($this->flat->id)],
         ];
 
@@ -40,7 +40,7 @@ class UpdateRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'owner_id' => 'Building',
+            'building_id' => 'Building',
         ];
     }
 }

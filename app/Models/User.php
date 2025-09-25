@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Building::class, 'house_owner_id');
     }
+
+    public function flats(): HasMany
+    {
+        return $this->hasMany(Flat::class, 'house_owner_id');
+    }
 }
