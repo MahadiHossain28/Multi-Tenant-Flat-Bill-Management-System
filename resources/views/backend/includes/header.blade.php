@@ -26,8 +26,8 @@
         ],
         [
             'title' => 'Bill Category',
-            'route' => route('dashboard'),
-            'active' => request()->is('/dashboard*'),
+            'route' => route('bill-category.index'),
+            'active' => request()->is('bill-category*'),
             'roles' => 'admin|house_owner',
         ],
         [

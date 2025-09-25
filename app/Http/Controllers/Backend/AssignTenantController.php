@@ -22,7 +22,7 @@ class AssignTenantController extends Controller
         ]);
         Tenant::findOrFail($request->tenant_id)->update(['assigned_flat_id' => $flat->id]);
 
-        return redirect()->route('flat.index', $flat)->with('success', 'Tenant Assigned.');
+        return redirect()->route('flat.index')->with('success', 'Tenant Assigned.');
     }
 
     public function remove(Tenant $tenant)

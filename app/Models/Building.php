@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 
 class Building extends Model
@@ -29,5 +30,10 @@ class Building extends Model
     public function houseOwner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'house_owner_id');
+    }
+
+    public function billCategories(): HasMany
+    {
+        return $this->hasMany(BillCategory::class, 'building_id');
     }
 }
