@@ -8,7 +8,6 @@
 @props([
     'label',
     'id',
-    'name',
     'isModal' => null
 ])
 
@@ -21,9 +20,9 @@
     </label>
 
     <select
-            class="form-select @error($name) is-invalid @enderror"
+            class="form-select @error($id) is-invalid @enderror"
             id="{{$id}}"
-            name="{{$name}}"
+            name="{{$id}}"
             {{ $attributes }}
     >
         <option hidden value="">Open this select menu</option>
@@ -35,9 +34,9 @@
     </select>
 
     @isset($isModal)
-        <span class="mt-1 text-danger text-capitalize errorMsg {{$name . "_error"}}"></span>
+        <span class="mt-1 text-danger text-capitalize errorMsg {{$id . "_error"}}"></span>
     @else
-        @error($name)
+        @error($id)
         <span class="mt-1 text-danger text-capitalize">{{ $message }}</span>
         @enderror
     @endisset

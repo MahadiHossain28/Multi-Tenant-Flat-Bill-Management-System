@@ -1,7 +1,7 @@
 @props([
     'headers' => [],
 ])
-<table {{ $attributes->class(['table', 'text-center',  'align-middle']) }}>
+<table {{ $attributes->class(['table', 'table-striped','text-center',  'align-middle', 'table-bordered']) }}>
     <thead>
         <tr>
             @foreach($headers as $header)

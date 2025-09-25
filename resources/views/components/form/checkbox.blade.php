@@ -1,5 +1,4 @@
 @props([
-    'name',
     'value',
     'id',
     'arrayType' => null,
@@ -11,11 +10,11 @@
             type="checkbox"
             {{ $attributes }}
             @isset($arrayType)
-                name="{{$name.'[]'}}"
-            @checked(in_array($value, old($name, $oldValue)))
+                name="{{$id.'[]'}}"
+            @checked(in_array($value, old($id, $oldValue)))
             @else
-                name="{{$name}}"
-            @checked(old($name) == $value)
+                name="{{$id}}"
+            @checked(old($id) == $value)
             @endisset
             value="{{$value}}"
             id="{{$id}}"

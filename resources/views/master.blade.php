@@ -1,10 +1,10 @@
-<x-main-layout class="min-vh-100 d-flex flex-column justify-content-between">
-    <header>
+<x-main-layout class="min-vh-100 d-flex flex-column">
+    <header class="sticky-top bg-white shadow">
         @include('backend.includes.header')
     </header>
 
-    <main>
-        <section class="py-4 px-3">
+    <main class="flex-grow-1 d-flex flex-column">
+        <section class="py-4 px-3 flex-grow-1 d-flex flex-column">
             @yield('content')
         </section>
     </main>

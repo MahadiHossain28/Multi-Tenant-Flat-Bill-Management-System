@@ -1,7 +1,6 @@
 @props([
     'label',
     'id',
-    'name',
     'value' => null,
     'isModal' => null,
 ])
@@ -16,17 +15,17 @@
     </label>
 
     <input
-            class="form-control @error($name) is-invalid @enderror"
+            class="form-control @error($id) is-invalid @enderror"
             id="{{$id}}"
-            name="{{$name}}"
-            value="{{old($name,$value)}}"
+            name="{{$id}}"
+            value="{{old($id,$value)}}"
             {{ $attributes }}
     >
 
     @isset($isModal)
-        <span class="mt-1 text-danger text-capitalize errorMsg {{$name . "_error"}}"></span>
+        <span class="mt-1 text-danger text-capitalize errorMsg {{$id . "_error"}}"></span>
     @else
-        @error($name)
+        @error($id)
         <span class="mt-1 text-danger text-capitalize">{{ $message }}</span>
         @enderror
     @endisset

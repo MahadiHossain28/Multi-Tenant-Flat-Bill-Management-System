@@ -1,3 +1,44 @@
+@php
+    $navItems = collect([
+        [
+            'title' => 'Dashboard',
+            'route' => route('dashboard'),
+            'active' => request()->is('dashboard*'),
+            'roles' => 'admin|house_owner',
+        ],
+        [
+            'title' => 'House Owner',
+            'route' => route('owner.index'),
+            'active' => request()->is('house/owner*'),
+            'roles' => 'admin',
+        ],
+        [
+            'title' => 'Flat',
+            'route' => route('flat.index'),
+            'active' => request()->is('flat*'),
+            'roles' => 'admin|house_owner',
+        ],
+        [
+            'title' => 'Tenant',
+            'route' => route('dashboard'),
+            'active' => request()->is('/dashboard*'),
+            'roles' => 'admin',
+        ],
+        [
+            'title' => 'Bill Category',
+            'route' => route('dashboard'),
+            'active' => request()->is('/dashboard*'),
+            'roles' => 'admin|house_owner',
+        ],
+        [
+            'title' => 'Bill',
+            'route' => route('dashboard'),
+            'active' => request()->is('/dashboard*'),
+            'roles' => 'admin|house_owner',
+        ],
+    ])->map(fn($item) => (object) $item);
+@endphp
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid w-100 justify-content-between px-4">
         <a class="navbar-brand d-flex align-items-center" href="#">
@@ -10,27 +51,13 @@
         @auth
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">House Owner</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Building</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Flat</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Tenant</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Bill Category</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Bill</a>
-                    </li>
+                    @foreach($navItems as $item)
+                        @hasanyrole($item->roles)
+                            <li class="nav-item">
+                                <a class="nav-link {{ $item->active ? 'active' : ''  }}" href="{{ $item->route }}">{{ $item->title }}</a>
+                            </li>
+                        @endhasanyrole
+                    @endforeach
                 </ul>
             </div>
             <ul class="navbar-nav ms-3">
@@ -39,7 +66,7 @@
                         <img src="{{ asset('assets/img/admin.jpg') }}" alt="" class="profile_img rounded-circle" width="40" height="40">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="">Logout</a></li>
+                        <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                     </ul>
                 </li>
             </ul>

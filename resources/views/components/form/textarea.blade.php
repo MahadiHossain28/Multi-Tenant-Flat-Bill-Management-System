@@ -1,7 +1,6 @@
 @props([
     'label',
     'id',
-    'name',
     'value' => null,
     'isModal' => null,
     'isSummerNote' => null
@@ -16,16 +15,16 @@
     </label>
 
     <textarea
-            class="form-control @error($name) is-invalid @enderror @isset($isSummerNote) summernote @endisset"
+            class="form-control @error($id) is-invalid @enderror @isset($isSummerNote) summernote @endisset"
             id="{{$id}}"
-            name="{{$name}}"
+            name="{{$id}}"
         {{ $attributes }}
-    >{{old($name,$value)}}</textarea>
+    >{{old($id,$value)}}</textarea>
 
     @isset($isModal)
-        <span class="mt-1 text-danger text-capitalize errorMsg {{$name . "_error"}}"></span>
+        <span class="mt-1 text-danger text-capitalize errorMsg {{$id . "_error"}}"></span>
     @else
-        @error($name)
+        @error($id)
         <span class="mt-1 text-danger text-capitalize">{{ $message }}</span>
         @enderror
     @endisset
