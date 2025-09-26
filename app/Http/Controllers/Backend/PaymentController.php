@@ -36,7 +36,7 @@ class PaymentController extends Controller
             ->where('flat_id', $flat->id)
             ->where('status', BillStatus::UNPAID)
             ->get();
-        return view('backend.payment.create', compact('bills', 'flat'));
+        return view('backend.layouts.payment.create', compact('bills', 'flat'));
     }
 
     /**

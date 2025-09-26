@@ -17,7 +17,7 @@ class BillCategoryController extends Controller
     public function index()
     {
         $billCategories = BillCategory::with('building')->paginate(10);
-        return view('backend.bill_category.index', compact('billCategories'));
+        return view('backend.layouts.bill_category.index', compact('billCategories'));
     }
 
     /**
@@ -30,7 +30,7 @@ class BillCategoryController extends Controller
         }else{
             $buildings = null;
         }
-        return view('backend.bill_category.create', compact('buildings'));
+        return view('backend.layouts.bill_category.create', compact('buildings'));
     }
 
     /**
@@ -64,7 +64,7 @@ class BillCategoryController extends Controller
         }else{
             $buildings = null;
         }
-        return view('backend.bill_category.edit', compact('billCategory', 'buildings'));
+        return view('backend.layouts.bill_category.edit', compact('billCategory', 'buildings'));
     }
 
     /**

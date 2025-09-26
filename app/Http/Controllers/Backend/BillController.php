@@ -26,7 +26,7 @@ class BillController extends Controller
             ->groupBy(function ($bill) {
                 return Carbon::parse($bill->month)->format('Y-m');
             });
-        return view('backend.bill.index', compact('bills', 'flat'));
+        return view('backend.layouts.bill.index', compact('bills', 'flat'));
     }
 
     /**
@@ -35,7 +35,7 @@ class BillController extends Controller
     public function create(Flat $flat)
     {
         $categories = BillCategory::select(['id', 'name'])->get();
-        return view('backend.bill.create', compact('flat', 'categories'));
+        return view('backend.layouts.bill.create', compact('flat', 'categories'));
     }
 
     /**
@@ -105,7 +105,7 @@ class BillController extends Controller
      */
     public function edit(Flat $flat, Bill $bill)
     {
-        return view('backend.bill.edit', compact('bill', 'flat'));
+        return view('backend.layouts.bill.edit', compact('bill', 'flat'));
     }
 
     /**

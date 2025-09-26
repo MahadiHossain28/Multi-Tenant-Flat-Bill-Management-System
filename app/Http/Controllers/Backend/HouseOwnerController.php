@@ -18,7 +18,7 @@ class HouseOwnerController extends Controller
     public function index()
     {
         $houseOwners = User::with('building')->role('house_owner')->paginate(10);
-        return view('backend.houseowner.index', compact('houseOwners'));
+        return view('backend.layouts.houseowner.index', compact('houseOwners'));
     }
 
     /**
@@ -27,7 +27,7 @@ class HouseOwnerController extends Controller
     public function create()
     {
         $buildings = Building::all();
-        return view('backend.houseowner.create', compact('buildings'));
+        return view('backend.layouts.houseowner.create', compact('buildings'));
     }
 
     /**
@@ -64,7 +64,7 @@ class HouseOwnerController extends Controller
      */
     public function edit(User $owner)
     {
-        return view('backend.houseowner.edit', compact('owner'));
+        return view('backend.layouts.houseowner.edit', compact('owner'));
     }
 
     /**

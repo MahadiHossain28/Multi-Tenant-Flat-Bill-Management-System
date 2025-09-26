@@ -22,7 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('tenant', TenantController::class)->except('show');
     });
 
-    Route::group(['middleware' => ['role:admin|owner']], function () {
+    Route::group(['middleware' => ['role:admin|house_owner']], function () {
         Route::resource('flat', FlatController::class)->except('show');
         Route::get('flat/{flat}/assign/tenant', [AssignTenantController::class, 'index'])->name('flat.assign.tenant');
         Route::post('flat/{flat}/assign/tenant/store', [AssignTenantController::class, 'store'])->name('flat.assign.tenant.store');

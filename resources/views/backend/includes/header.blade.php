@@ -13,12 +13,6 @@
             'roles' => 'admin',
         ],
         [
-            'title' => 'Flat',
-            'route' => route('flat.index'),
-            'active' => request()->is('flat*'),
-            'roles' => 'admin|house_owner',
-        ],
-        [
             'title' => 'Tenant',
             'route' => route('tenant.index'),
             'active' => request()->is('tenant*'),
@@ -30,12 +24,18 @@
             'active' => request()->is('bill-category*'),
             'roles' => 'admin|house_owner',
         ],
+        [
+            'title' => 'Flat',
+            'route' => route('flat.index'),
+            'active' => request()->is('flat*'),
+            'roles' => 'admin|house_owner',
+        ],
     ])->map(fn($item) => (object) $item);
 @endphp
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid w-100 justify-content-between px-4">
-        <a class="navbar-brand d-flex align-items-center" href="#">
+        <a class="navbar-brand d-flex align-items-center" href="{{ route('dashboard') }}">
             <img class="system_logo" src="{{ asset('assets/img/logo.png') }}" alt="logo" width="50">
             <h1 class="ms-3 mb-0 fs-4">{{ config('app.name') }}</h1>
         </a>

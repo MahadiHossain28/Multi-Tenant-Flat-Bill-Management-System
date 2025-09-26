@@ -1,29 +1,29 @@
-# 🏢 Multi-Tenant Flat & Bill Management System
+# Multi-Tenant Flat & Bill Management System
 
 A **multi-tenant Laravel 12 application** for managing buildings, flats, tenants, and bills.  
 Supports **Super Admins**, **House Owners** with role-based access control using [Spatie Laravel Permission](https://spatie.be/docs/laravel-permission).
 
 ---
 
-## 🚀 Features
+## Features
 
-### 👨‍💼 Super Admin
+### Super Admin
 - Manage **House Owners**.
 - Create and assign **Tenants** to buildings.
 - View or remove tenants.
 
-### 🏠 House Owner
+### House Owner
 - Manage **Flats** in their buildings.
 - Define **Bill Categories** (Electricity, Gas, Water, Utility).
 - Create **Bills** for flats and manage dues.
 - Receive **email notifications** when bills are created or paid.
 
-### 👤 Tenant
+### Tenant
 - Receive notifications about **new bills** and **successful payments**.
 
 ---
 
-## ⚙️ Tech Stack
+## Tech Stack
 - **Backend**: Laravel 12 (PHP 8.3)
 - **Frontend**: Blade + Bootstrap
 - **Database**: MySQL
@@ -33,15 +33,141 @@ Supports **Super Admins**, **House Owners** with role-based access control using
 
 ---
 
-## 📂 Project Structure
+## Project Structure
+```plaintext
 app/
-├── Mail/ # Email notifications (BillCreated, BillPaid)
-├── Models/ # Eloquent models (User, Owner, Building, Flat, Bill, Payment)
+├── Enums/
 ├── Http/
-│ ├── Controllers/ # Controllers (Admin, Owner, BillController, etc.)
-│ └── Middleware/ # TenantMiddleware for isolation
-└── Scopes/TenantScope.php # Global tenant query scope
+│   ├── Controllers/
+│   ├── Requests/
+├── Models/
+│   ├── Admin.php
+│   ├── HouseOwner.php
+│   ├── Tenant.php
+│   ├── Flat.php
+│   ├── BillCategory.php
+│   └── Bill.php
+├── Mails/
+├── Observers/
+routes/
+├── web.php
 database/
-├── migrations/ # Schema definition
-├── seeders/ # Seed sample data
-└── dumps/multitenant.sql # Full DB schema + sample data
+├── migrations/
+├── seeders/
+```
+---
+## Setup Instructions
+```bash
+git clone https://github.com/MahadiHossain28/Multi-Tenant-Flat-Bill-Management-System.git
+
+cd building-management-system
+
+composer install
+
+cp .env.example .env
+
+php artisan key:generate
+
+```
+
+```env
+APP_NAME="MultiTenant"
+APP_ENV=local
+APP_KEY=
+APP_URL=http://localhost
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=multitenant
+DB_USERNAME=root
+DB_PASSWORD=
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=admin@example.com
+MAIL_FROM_NAME="${APP_NAME}"
+```
+```bash
+npm install && npm run dev
+
+php artisan migrate --seed
+
+php artisan serve
+
+php artisan queue:work
+```
+
+---
+### Email Notifications 
+- **Bill Created** → Notifies House Owner
+
+- **Bill Paid** → Notifies House Owner + Admin
+
+- Ensure MAIL settings are configured in (`.env`).
+
+### Multi-Tenant Implementation 
+- **Strategy**: Column-Based Tenant Isolation
+- Each `Building`, `Flat`, `Bill`, and `BillCategory` has a `house_owner_id` directly or By `Building`.
+- Each relevant table includes a (`house_owner_id`)
+- All queries scoped to the logged-in user's ownership
+
+---
+
+### Optimization & Clean Code Practices
+
+- Eloquent Global Scopes for tenant filtering
+
+- Indexes on foreign keys (`house_owner_id, flat_id`)
+
+- Selective `with()` to avoid N+1 queries
+
+- PSR-12 coding standard
+
+--- 
+
+### Sample Data
+
+Included in:
+
+- database/seeders/DataSeeder.php
+
+- database.sql file
+
+Sample includes:
+
+- 1 Admin
+
+- 2 House Owners
+
+- Multiple Flats
+
+- Predefined Bill Categories
+
+- Assigned Tenants & Bills
+
+--- 
+### User Credentials
+| Role        | Login Email  | Password   | Abilities    |
+|-------------|--------------| ---------- | ------------ |
+| Admin       | `admin@example.com` | `password` | Manage everything |
+| House Owner | `test@test.com` | `password` | Manage flats, bills, categories |
+
+
+---
+
+### Author
+
+Developed by: MD Mahadi Hossain
+
+GitHub: github.com/MahadiHossain28
+
+--- 
+
+### License
+
+This project is open-sourced under the MIT License.

@@ -12,7 +12,7 @@ class AssignTenantController extends Controller
     public function index(Flat $flat)
     {
         $tenants = Tenant::where('assigned_building_id', $flat->building_id)->whereNull('assigned_flat_id')->select(['id', 'name'])->get();
-        return view('backend.tenant.assign.index', compact('tenants', 'flat'));
+        return view('backend.layouts.tenant.assign.index', compact('tenants', 'flat'));
     }
 
     public function store(Request $request, Flat $flat)

@@ -18,7 +18,7 @@ class FlatController extends Controller
     public function index()
     {
         $flats = Flat::with('building', 'tenant')->paginate(10);
-        return view('backend.flat.index', compact('flats'));
+        return view('backend.layouts.flat.index', compact('flats'));
     }
 
     /**
@@ -31,7 +31,7 @@ class FlatController extends Controller
         }else{
             $buildings = null;
         }
-        return view('backend.flat.create', compact('buildings'));
+        return view('backend.layouts.flat.create', compact('buildings'));
     }
 
     /**
@@ -66,7 +66,7 @@ class FlatController extends Controller
         }else{
             $buildings = null;
         }
-        return view('backend.flat.edit', compact('buildings', 'flat'));
+        return view('backend.layouts.flat.edit', compact('buildings', 'flat'));
     }
 
     /**

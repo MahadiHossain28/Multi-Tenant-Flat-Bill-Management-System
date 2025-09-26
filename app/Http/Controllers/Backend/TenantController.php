@@ -17,7 +17,7 @@ class TenantController extends Controller
     public function index()
     {
         $tenants = Tenant::with('flat:id,number', 'building:id,name')->paginate(10);
-        return view('backend.tenant.index', compact('tenants'));
+        return view('backend.layouts.tenant.index', compact('tenants'));
     }
 
     /**
@@ -26,7 +26,7 @@ class TenantController extends Controller
     public function create()
     {
         $buildings = Building::select(['id', 'name'])->get();
-        return view('backend.tenant.create', compact('buildings'));
+        return view('backend.layouts.tenant.create', compact('buildings'));
     }
 
     /**
@@ -57,7 +57,7 @@ class TenantController extends Controller
     public function edit(Tenant $tenant)
     {
         $buildings = Building::select(['id', 'name'])->get();
-        return view('backend.tenant.edit', compact('tenant', 'buildings'));
+        return view('backend.layouts.tenant.edit', compact('tenant', 'buildings'));
     }
 
     /**
