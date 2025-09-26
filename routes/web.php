@@ -17,15 +17,20 @@ Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
 
-    Route::resource('house/owner', HouseOwnerController::class)->except('show');
-    Route::resource('flat', FlatController::class)->except('show');
-    Route::resource('tenant', TenantController::class)->except('show');
-    Route::get('flat/{flat}/assign/tenant', [AssignTenantController::class, 'index'])->name('flat.assign.tenant');
-    Route::post('flat/{flat}/assign/tenant/store', [AssignTenantController::class, 'store'])->name('flat.assign.tenant.store');
-    Route::get('flat/remove/tenant/{tenant}', [AssignTenantController::class, 'remove'])->name('flat.remove.tenant');
-    Route::resource('bill-category', BillCategoryController::class)->except('show');
-    Route::resource('flat/{flat}/bills', BillController::class)->except('show', 'destroy');
-    Route::resource('flat/{flat}/bills/payment', PaymentController::class)->except('show', 'destroy');
+    Route::group(['middleware' => ['role:admin']], function () {
+        Route::resource('house/owner', HouseOwnerController::class)->except('show');
+        Route::resource('tenant', TenantController::class)->except('show');
+    });
+
+    Route::group(['middleware' => ['role:admin|owner']], function () {
+        Route::resource('flat', FlatController::class)->except('show');
+        Route::get('flat/{flat}/assign/tenant', [AssignTenantController::class, 'index'])->name('flat.assign.tenant');
+        Route::post('flat/{flat}/assign/tenant/store', [AssignTenantController::class, 'store'])->name('flat.assign.tenant.store');
+        Route::get('flat/remove/tenant/{tenant}', [AssignTenantController::class, 'remove'])->name('flat.remove.tenant');
+        Route::resource('bill-category', BillCategoryController::class)->except('show');
+        Route::resource('flat/{flat}/bills', BillController::class)->except('show', 'destroy');
+        Route::resource('flat/{flat}/bills/payment', PaymentController::class)->except('show', 'destroy');
+    });
 
 
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');

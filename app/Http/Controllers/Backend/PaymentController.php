@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Backend;
 
 use App\Enums\BillStatus;
 use App\Http\Controllers\Controller;
+use App\Mail\BillCreated;
+use App\Mail\BillPaid;
 use App\Models\Bill;
 use App\Models\Flat;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
 {
@@ -68,6 +71,16 @@ class PaymentController extends Controller
                 ]);
             }
         }
+
+        $month = Carbon::now()->startOfMonth();
+
+        $currentMonthBills = Bill::where('flat_id', $flat->id)
+            ->whereYear('month', $month->year)
+            ->whereMonth('month', $month->month)
+            ->get();
+
+        Mail::to($flat->owner_email)->send(new BillPaid($flat, $currentMonthBills));
+        Mail::to($flat->tenant->email)->send(new BillPaid($flat, $currentMonthBills));
 
         return redirect()->route('bills.index', $flat->id)->with('success', 'Bill Paid for this month.');
 

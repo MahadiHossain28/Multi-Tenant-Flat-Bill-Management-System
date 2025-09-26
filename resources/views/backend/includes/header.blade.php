@@ -30,12 +30,6 @@
             'active' => request()->is('bill-category*'),
             'roles' => 'admin|house_owner',
         ],
-        //        [
-        //            'title' => 'Bill',
-        //            'route' => route('bills.index'),
-        //            'active' => request()->is('bills*'),
-        //            'roles' => 'admin|house_owner',
-        //        ],
     ])->map(fn($item) => (object) $item);
 @endphp
 

@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Backend;
 
 use App\Enums\BillStatus;
 use App\Http\Controllers\Controller;
+use App\Mail\BillCreated;
 use App\Models\Bill;
 use App\Models\BillCategory;
 use App\Models\Flat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class BillController extends Controller
 {
@@ -52,7 +54,7 @@ class BillController extends Controller
             'note.*'   => 'nullable|string|max:255',
         ]);
 
-        $month = Carbon::now()->startOfMonth()->format('Y-m-d');
+        $month = Carbon::now()->startOfMonth();
         $lastMonth = Carbon::now()->subMonth();
 
         for($i = 0; $i < $request->category_count; $i++) {
@@ -78,6 +80,14 @@ class BillController extends Controller
                 'created_by'  => auth()->user()->id,
             ]);
         }
+
+        $currentMonthBills = Bill::where('flat_id', $flat->id)
+            ->whereYear('month', $month->year)
+            ->whereMonth('month', $month->month)
+            ->get();
+
+        Mail::to($flat->owner_email)->send(new BillCreated($flat, $currentMonthBills));
+        Mail::to($flat->tenant->email)->send(new BillCreated($flat, $currentMonthBills));
 
         return redirect()->route('flat.index')->with('success', 'Bill for this month created.');
     }
