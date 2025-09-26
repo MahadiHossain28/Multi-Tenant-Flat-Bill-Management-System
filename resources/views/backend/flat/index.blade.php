@@ -28,7 +28,7 @@
                             N/A
                         @endif
                     </td>
-                    <td>
+                    <td style="width: 20%">
                         <div class="d-flex flex-wrap gap-2 justify-content-center">
                             <a href="{{ route('flat.edit', $flat->id) }}" class="btn btn-dark btn-sm">Edit</a>
                             <form action="{{ route('flat.destroy', $flat->id) }}" method="POST" class="d-inline"
@@ -41,6 +41,12 @@
                                 <a href="{{ route('flat.assign.tenant', $flat->id) }}" class="btn btn-dark btn-sm">Assign Tenant</a>
                             @else
                                 <a href="{{ route('flat.remove.tenant', $flat->tenant->id) }}" class="btn btn-danger btn-sm">Remove Tenant</a>
+                                @if (! $flat->hasBillForMonth())
+                                    <a href="{{ route('bills.create', $flat->id) }}" class="btn btn-dark btn-sm">Add Bill</a>
+                                @endif
+                                @if($flat->bills->count() > 0)
+                                    <a href="{{ route('bills.index', $flat->id) }}" class="btn btn-dark btn-sm">View Bills</a>
+                                @endif
                             @endif
                         </div>
                     </td>

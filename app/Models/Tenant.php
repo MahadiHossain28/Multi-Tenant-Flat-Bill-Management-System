@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 
 #[ObservedBy(TenantObserver::class)]
@@ -47,8 +48,8 @@ class Tenant extends Model
         return $this->belongsTo(Flat::class, 'assigned_flat_id');
     }
 
-    //    public function payments()
-    //    {
-    //        return $this->hasMany(Payment::class, 'paid_by_tenant_id');
-    //    }
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class, 'paid_by_tenant_id');
+    }
 }

@@ -1,6 +1,7 @@
 @props([
     'label',
     'id',
+    'name' => null,
     'value' => null,
     'isModal' => null,
 ])
@@ -17,7 +18,7 @@
     <input
             class="form-control @error($id) is-invalid @enderror"
             id="{{$id}}"
-            name="{{$id}}"
+            name="{{ $name ?? $id}}"
             value="{{old($id,$value)}}"
             {{ $attributes }}
     >

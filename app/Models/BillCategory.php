@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 
 #[ObservedBy(BillCategoryObserver::class)]
@@ -35,8 +36,8 @@ class BillCategory extends Model
         return $this->belongsTo(Building::class);
     }
 
-    //    public function bills()
-    //    {
-    //        return $this->hasMany(Bill::class, 'category_id');
-    //    }
+    public function bills(): HasMany
+    {
+        return $this->hasMany(Bill::class, 'category_id');
+    }
 }
