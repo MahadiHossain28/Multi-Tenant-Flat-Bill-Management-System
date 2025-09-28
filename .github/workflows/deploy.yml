@@ -34,13 +34,11 @@ jobs:
           #          script_stop: true
           script: |
             cd ~/domains/unanimousit.com/public_html/__flat
-            /opt/alt/php83/usr/bin/php artisan down
             git pull origin main
             /opt/alt/php83/usr/bin/php /usr/local/bin/composer2 install
             /opt/alt/php83/usr/bin/php artisan migrate --force
             /opt/alt/php83/usr/bin/php artisan optimize:clear
             /opt/alt/php83/usr/bin/php artisan optimize
-            /opt/alt/php83/usr/bin/php artisan up
       - name: Install SSH key
         run: |
           mkdir -p ~/.ssh/
